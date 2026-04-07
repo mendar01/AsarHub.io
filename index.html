@@ -131,15 +131,10 @@
     }
     .btn-full{width:100%}
 
-    .reveal{opacity:1;transform:none}
-    .js .reveal{
-      opacity:0;
-      transform:translateY(28px);
-      transition:all .7s ease;
-    }
-    .js .reveal.active{
-      opacity:1;
-      transform:translateY(0);
+ .reveal{
+  opacity:1;
+  transform:none;
+}rm:translateY(0);
     }
 
     /* Header */
@@ -1429,7 +1424,7 @@
   <button class="scroll-top" id="scrollTop">↑</button>
 
   <script>
-    document.body.classList.add("js");
+ // document.body.classList.add("js");
 
     // Menu
     const burger = document.getElementById("burger");
