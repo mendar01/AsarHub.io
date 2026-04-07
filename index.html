@@ -492,22 +492,46 @@
       font-weight:700;
     }
 
-    /* Projects Slider */
-    .projects-slider{
-      overflow:hidden;
-      width:100%;
-    }
+  .projects-slider {
+  overflow: hidden;
+  width: 100%;
+  padding: 6px 0;
+}
 
-    .projects-track{
-      display:flex;
-      transition:transform .5s ease;
-      will-change:transform;
-    }
+.projects-track {
+  display: flex;
+  gap: 0;
+  transition: transform 0.5s ease;
+  will-change: transform;
+}
 
-    .project-slide{
-      min-width:33.3333%;
-      padding:10px;
-    }
+.project-slide {
+  flex: 0 0 33.3333%;
+  max-width: 33.3333%;
+  padding: 10px;
+}
+
+.project-card {
+  height: 100%;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (max-width: 1100px) {
+  .project-slide {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 700px) {
+  .project-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
 
     .project-card{
       height:100%;
@@ -932,6 +956,124 @@
       .chat-widget{right:12px;bottom:12px}
       .scroll-top{left:12px;bottom:12px}
     }
+    .hero .container,
+.section .container {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.hero h1,
+.hero p,
+.hero-badge,
+.hero-buttons,
+.hero-stats {
+  max-width: 100%;
+}
+
+.hero-inner > div:first-child {
+  padding-right: 12px;
+}
+
+.hero-side {
+  padding: 34px;
+}
+
+.fact-box,
+.card,
+.volunteer-form,
+.form-side,
+.contact-card,
+.mission-card,
+.step-card,
+.stat-card,
+.project-card {
+  word-break: break-word;
+}
+
+.form-group input,
+.form-group textarea {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+#volunteer-form .section-title,
+#contact .section-title,
+#projects .section-title,
+#mission .section-title,
+#join .section-title {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@media (max-width: 700px) {
+  .hero-inner > div:first-child {
+    padding-right: 0;
+  }
+
+  .hero-side {
+    padding: 24px;
+  }
+
+  .card,
+  .volunteer-form,
+  .form-side {
+    padding: 20px;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .section {
+    padding: 72px 0;
+  }
+}
+    .volunteer-wrap {
+  gap: 30px;
+}
+
+.volunteer-form {
+  padding: 34px;
+}
+
+.form-side {
+  padding: 34px;
+}
+
+.form-grid {
+  gap: 20px;
+}
+
+.form-group label,
+.checkbox-title {
+  margin-bottom: 2px;
+}
+
+.checkbox-grid label {
+  line-height: 1.4;
+}
+    .hero h1 {
+  max-width: 760px;
+}
+
+.hero p {
+  max-width: 680px;
+}
+
+@media (max-width: 700px) {
+  .hero h1 {
+    max-width: 100%;
+    line-height: 1.08;
+  }
+
+  .hero p {
+    max-width: 100%;
+  }
+}
+    .slider-btn:hover,
+.fact-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+}
   </style>
 </head>
 <body>
@@ -1303,10 +1445,7 @@
             <div class="form-group full">
               <button type="submit" class="btn btn-green btn-full" id="submitBtn" data-kk="Мен қосыламын!" data-ru="Я присоединяюсь!">Мен қосыламын!</button>
               <p class="form-message" id="formMessage"></p>
-              <p class="storage-note" data-kk="Ескерту: егер Formspree қосылмаса, өтінім браузерде localStorage арқылы сақталады."
-                 data-ru="Примечание: если Formspree не подключен, заявка сохранится в браузере через localStorage.">
-                Ескерту: егер Formspree қосылмаса, өтінім браузерде localStorage арқылы сақталады.
-              </p>
+             
             </div>
           </div>
         </form>
@@ -1314,37 +1453,37 @@
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="section-title reveal">
-        <span class="mini" data-kk="📊 Көрсеткіштер" data-ru="📊 Показатели">📊 Көрсеткіштер</span>
-        <h2 data-kk="Asar Hub сандармен" data-ru="Asar Hub в цифрах">Asar Hub сандармен</h2>
-        <p data-kk="Жақсылықтың күші — бірлікте."
-           data-ru="Сила добрых дел — в единстве.">
-          Жақсылықтың күші — бірлікте.
-        </p>
-      </div>
+<section class="section">
+  <div class="container">
+    <div class="section-title reveal">
+      <span class="mini" data-kk="📊 Көрсеткіштер" data-ru="📊 Показатели">📊 Көрсеткіштер</span>
+      <h2 data-kk="Asar Hub сандармен" data-ru="Asar Hub в цифрах">Asar Hub сандармен</h2>
+      <p data-kk="Жақсылықтың күші — бірлікте."
+         data-ru="Сила добрых дел — в единстве.">
+        Жақсылықтың күші — бірлікте.
+      </p>
+    </div>
 
-      <div class="stats-grid" id="statsGrid">
-        <div class="card stat-card reveal">
-          <strong data-counter="150">0</strong>
-          <span data-kk="Тіркелген волонтёр" data-ru="Зарегистрированных волонтёров">Тіркелген волонтёр</span>
-        </div>
-        <div class="card stat-card reveal">
-          <strong data-counter="24">0</strong>
-          <span data-kk="Өткізілген шара" data-ru="Проведённых мероприятий">Өткізілген шара</span>
-        </div>
-        <div class="card stat-card reveal">
-          <strong data-counter="12">0</strong>
-          <span data-kk="Белсенді жоба" data-ru="Активных проектов">Белсенді жоба</span>
-        </div>
-        <div class="card stat-card reveal">
-          <strong data-counter="300">0</strong>
-          <span data-kk="Жақсылық сағаты" data-ru="Часов добрых дел">Жақсылық сағаты</span>
-        </div>
+    <div class="stats-grid" id="statsGrid">
+      <div class="card stat-card reveal">
+        <strong data-counter="150">0</strong>
+        <span data-kk="Тіркелген волонтёр" data-ru="Зарегистрированных волонтёров">Тіркелген волонтёр</span>
+      </div>
+      <div class="card stat-card reveal">
+        <strong data-counter="38">0</strong>
+        <span data-kk="Өткізілген шара" data-ru="Проведённых мероприятий">Өткізілген шара</span>
+      </div>
+      <div class="card stat-card reveal">
+        <strong data-counter="16">0</strong>
+        <span data-kk="Белсенді жоба" data-ru="Активных проектов">Белсенді жоба</span>
+      </div>
+      <div class="card stat-card reveal">
+        <strong data-counter="1240">0</strong>
+        <span data-kk="Жақсылық сағаты" data-ru="Часов добрых дел">Жақсылық сағаты</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <section class="section" id="contact">
     <div class="container">
@@ -1547,49 +1686,81 @@
     renderFact();
     setInterval(nextFactSlide, 6000);
 
-    // Projects slider
-    const projectsTrack = document.getElementById("projectsTrack");
-    const prevProject = document.getElementById("prevProject");
-    const nextProject = document.getElementById("nextProject");
-    const slides = document.querySelectorAll(".project-slide");
-    let currentProject = 0;
+   // Projects slider
+const projectsTrack = document.getElementById("projectsTrack");
+const prevProject = document.getElementById("prevProject");
+const nextProject = document.getElementById("nextProject");
+const slides = Array.from(document.querySelectorAll(".project-slide"));
+let currentProject = 0;
+let autoSlideInterval;
 
-    function getVisibleSlides(){
-      if(window.innerWidth <= 700) return 1;
-      if(window.innerWidth <= 1100) return 2;
-      return 3;
-    }
+function getVisibleSlides() {
+  if (window.innerWidth <= 700) return 1;
+  if (window.innerWidth <= 1100) return 2;
+  return 3;
+}
 
-    function updateProjectSlider(){
-      const visible = getVisibleSlides();
-      const maxIndex = Math.max(0, slides.length - visible);
-      if(currentProject > maxIndex) currentProject = maxIndex;
-      const move = (100 / visible) * currentProject;
-      projectsTrack.style.transform = "translateX(-" + move + "%)";
-    }
+function getSlideWidthPercent() {
+  return 100 / getVisibleSlides();
+}
 
-    nextProject.addEventListener("click", () => {
-      const visible = getVisibleSlides();
-      const maxIndex = Math.max(0, slides.length - visible);
-      currentProject = currentProject >= maxIndex ? 0 : currentProject + 1;
-      updateProjectSlider();
-    });
+function updateProjectSlider() {
+  const visible = getVisibleSlides();
+  const maxIndex = Math.max(0, slides.length - visible);
 
-    prevProject.addEventListener("click", () => {
-      const visible = getVisibleSlides();
-      const maxIndex = Math.max(0, slides.length - visible);
-      currentProject = currentProject <= 0 ? maxIndex : currentProject - 1;
-      updateProjectSlider();
-    });
+  if (currentProject > maxIndex) {
+    currentProject = maxIndex;
+  }
 
-    window.addEventListener("resize", updateProjectSlider);
-    updateProjectSlider();
-    setInterval(() => {
-      const visible = getVisibleSlides();
-      const maxIndex = Math.max(0, slides.length - visible);
-      currentProject = currentProject >= maxIndex ? 0 : currentProject + 1;
-      updateProjectSlider();
-    }, 7000);
+  const translate = currentProject * getSlideWidthPercent();
+  projectsTrack.style.transform = `translateX(-${translate}%)`;
+}
+
+function nextProjectSlide() {
+  const visible = getVisibleSlides();
+  const maxIndex = Math.max(0, slides.length - visible);
+
+  if (currentProject >= maxIndex) {
+    currentProject = 0;
+  } else {
+    currentProject += 1;
+  }
+
+  updateProjectSlider();
+}
+
+function prevProjectSlide() {
+  const visible = getVisibleSlides();
+  const maxIndex = Math.max(0, slides.length - visible);
+
+  if (currentProject <= 0) {
+    currentProject = maxIndex;
+  } else {
+    currentProject -= 1;
+  }
+
+  updateProjectSlider();
+}
+
+if (nextProject) {
+  nextProject.addEventListener("click", nextProjectSlide);
+}
+
+if (prevProject) {
+  prevProject.addEventListener("click", prevProjectSlide);
+}
+
+window.addEventListener("resize", () => {
+  updateProjectSlider();
+});
+
+function startAutoSlide() {
+  clearInterval(autoSlideInterval);
+  autoSlideInterval = setInterval(nextProjectSlide, 5000);
+}
+
+updateProjectSlider();
+startAutoSlide();
 
     // Form
     const volunteerForm = document.getElementById("volunteerForm");
