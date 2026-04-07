@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asar Hub — Атырау волонтерлары</title>
+  <meta name="description" content="Asar Hub — Атырау волонтерларының бірлік, көмек және экологияға арналған платформасы.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #2ecb70;
+      --green-dark: #169e52;
+      --blue: #3aa0ff;
+      --blue-dark: #1f78cc;
+      --yellow: #ffd54f;
+      --yellow-dark: #f4b400;
+      --bg: #f7fffb;
+      --bg-2: #eef7ff;
+      --white: #ffffff;
+      --text: #1b2b34;
+      --muted: #6d7b88;
+      --shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+      --shadow-soft: 0 8px 22px rgba(0, 0, 0, 0.06);
+      --radius: 24px;
+      --radius-lg: 32px;
+      --gradient-main: linear-gradient(135deg, #2ecb70 0%, #3aa0ff 100%);
+      --gradient-yellow: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+      --max-width: 1180px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Comic Neue", "Baloo 2", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(46, 203, 112, 0.10), transparent 30%),
+        radial-gradient(circle at top right, rgba(58, 160, 255, 0.10), transparent 25%),
+        linear-gradient(180deg, #f8fff9 0%, #eef7ff 100%);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    .container {
+      width: min(var(--max-width), 92%);
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 90px 0;
+      position: relative;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 46px;
+    }
+
+    .section-title .mini {
+      display: inline-block;
+      background: rgba(58, 160, 255, 0.12);
+      color: var(--blue-dark);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+    }
+
+    .section-title h2 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: var(--shadow-soft);
+      border-radius: var(--radius);
+      padding: 26px;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 24px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: white;
+    }
+
+    .btn-blue {
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: white;
+    }
+
+    .btn-yellow {
+      background: var(--gradient-yellow);
+      color: #5f4700;
+    }
+
+    .btn-outline {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    /* header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .nav {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--green-dark);
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--gradient-main);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 1.35rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .menu a {
+      font-weight: 800;
+      color: var(--text);
+      position: relative;
+    }
+
+    .menu a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 0;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--gradient-main);
+      transition: 0.25s ease;
+    }
+
+    .menu a:hover::after {
+      width: 100%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-switch {
+      display: flex;
+      background: #edf6ff;
+      border-radius: 999px;
+      padding: 4px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      background: var(--blue);
+      color: white;
+      box-shadow: 0 4px 10px rgba(58,160,255,0.35);
+    }
+
+    .burger {
+      display: none;
+      border: none;
+      background: var(--gradient-yellow);
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    /* hero */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(11, 58, 90, 0.62), rgba(46, 203, 112, 0.35)),
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80") center/cover no-repeat;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      filter: blur(3px);
+      animation: floatBlob 8s ease-in-out infinite;
+    }
+
+    .hero::before {
+      width: 260px;
+      height: 260px;
+      top: 10%;
+      right: 8%;
+    }
+
+    .hero::after {
+      width: 180px;
+      height: 180px;
+      left: 6%;
+      bottom: 12%;
+      animation-delay: 2s;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+      width: 100%;
+      padding: 40px 0;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.24);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-text h1 {
+      color: white;
+      font-size: clamp(2.5rem, 5vw, 4.6rem);
+      line-height: 1.05;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .hero-text p {
+      color: rgba(255,255,255,0.92);
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin-bottom: 26px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 640px;
+    }
+
+    .hero-stat {
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.20);
+      padding: 16px;
+      border-radius: 22px;
+      color: white;
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 30px;
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      color: white;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      animation: floatCard 5s ease-in-out infinite;
+    }
+
+    .hero-card h3 {
+      margin-bottom: 14px;
+      font-size: 1.45rem;
+    }
+
+    .hero-card-list {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 20px;
+    }
+
+    .hero-card-item {
+      background: rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* about mission */
+    .mission-grid,
+    .projects-grid,
+    .steps-grid,
+    .stats-grid,
+    .contact-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .mission-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .mission-card {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mission-card::before {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(58,160,255,0.08);
+      top: -40px;
+      right: -40px;
+    }
+
+    .icon-circle {
+      width: 74px;
+      height: 74px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      font-size: 2rem;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, rgba(46,203,112,0.16), rgba(58,160,255,0.16));
+    }
+
+    .mission-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+    }
+
+    .mission-card p {
+      color: var(--muted);
+    }
+
+    /* fun facts */
+    .facts-section {
+      background: linear-gradient(135deg, rgba(46,203,112,0.08), rgba(58,160,255,0.08));
+    }
+
+    .facts-wrap {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+      max-width: 920px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.88);
+      padding: 20px;
+      border-radius: 28px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .fact-box {
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      padding: 20px 24px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #f4fff7, #f1f8ff);
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: var(--blue-dark);
+      animation: fadeSlide 0.6s ease;
+    }
+
+    .fact-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .fact-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      background: var(--gradient-main);
+      color: white;
+      font-size: 1.1rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* projects */
+    .projects-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .project-card {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: auto auto -40px -40px;
+      width: 130px;
+      height: 130px;
+      background: rgba(255, 213, 79, 0.20);
+      border-radius: 50%;
+      z-index: -1;
+      transition: 0.35s ease;
+    }
+
+    .project-card:hover::before {
+      transform: scale(1.8);
+    }
+
+    .project-emoji {
+      width: 86px;
+      height: 86px;
+      margin: 0 auto 16px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(58,160,255,0.15), rgba(46,203,112,0.15));
+      display: grid;
+      place-items: center;
+      font-size: 2.7rem;
+    }
+
+    .project-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    /* join steps */
+    .steps-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      background: var(--gradient-main);
+      color: white;
+      font-weight: 800;
+      font-size: 1.25rem;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .step-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: var(--muted);
+    }
+
+    .center-btn {
+      text-align: center;
+      margin-top: 28px;
+    }
+
+    /* volunteer form */
+    .volunteer-wrap {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .form-side {
+      background: var(--gradient-main);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-side::before,
+    .form-side::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .form-side::before {
+      width: 180px;
+      height: 180px;
+      top: -50px;
+      right: -40px;
+    }
+
+    .form-side::after {
+      width: 120px;
+      height: 120px;
+      left: -30px;
+      bottom: -30px;
+    }
+
+    .form-side h3 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .form-side p {
+      opacity: 0.95;
+      margin-bottom: 20px;
+    }
+
+    .join-features {
+      display: grid;
+      gap: 12px;
+    }
+
+    .join-feature {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 18px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(10px);
+    }
+
+    .volunteer-form {
+      background: rgba(255,255,255,0.94);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 28px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label,
+    .checkbox-title {
+      font-weight: 800;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 2px solid #dceaf8;
+      background: #fbfdff;
+      outline: none;
+      transition: 0.25s ease;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(46,203,112,0.12);
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .checkbox-grid label {
+      background: linear-gradient(135deg, #f8fff9, #f4faff);
+      border: 2px dashed #cfe2f5;
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .checkbox-grid label:hover {
+      transform: translateY(-2px);
+      border-color: var(--green);
+    }
+
+    .form-message {
+      margin-top: 14px;
+      font-weight: 800;
+      color: var(--green-dark);
+    }
+
+    .storage-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* stats */
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-card {
+      text-align: center;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    /* contacts */
+    .contact-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .contact-card {
+      text-align: center;
+    }
+
+    .contact-icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 12px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(46,203,112,0.16), rgba(58,160,255,0.16));
+      font-size: 1.6rem;
+    }
+
+    .contact-card h3 {
+      margin-bottom: 8px;
+      color: var(--blue-dark);
+    }
+
+    .contact-card a {
+      color: var(--green-dark);
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    /* footer */
+    .footer {
+      background: #0d2f47;
+      color: white;
+      padding: 28px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+      right: -50px;
+      top: -70px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer small {
+      opacity: 0.85;
+    }
+
+    /* chat */
+    .chat-widget {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1200;
+    }
+
+    .chat-toggle {
+      background: var(--gradient-main);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .chat-box {
+      width: 360px;
+      max-width: calc(100vw - 24px);
+      background: white;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: none;
+      margin-bottom: 12px;
+    }
+
+    .chat-box.open {
+      display: block;
+      animation: popUp 0.25s ease;
+    }
+
+    .chat-header {
+      background: var(--gradient-main);
+      color: white;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 800;
+    }
+
+    .chat-header button {
+      border: none;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 14px;
+      background: linear-gradient(180deg, #f8fff9, #f5faff);
+    }
+
+    .message {
+      max-width: 85%;
+      padding: 11px 13px;
+      border-radius: 16px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      white-space: pre-wrap;
+    }
+
+    .message.user {
+      margin-left: auto;
+      background: #dff0ff;
+    }
+
+    .message.bot {
+      margin-right: auto;
+      background: #eafff1;
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid #ecf1f6;
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      border: 2px solid #dceaf8;
+      border-radius: 14px;
+      outline: none;
+      padding: 11px 12px;
+      background: #fbfdff;
+    }
+
+    .chat-input-area input:focus {
+      border-color: var(--blue);
+    }
+
+    .chat-input-area button {
+      border: none;
+      border-radius: 14px;
+      background: var(--gradient-yellow);
+      padding: 0 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* scroll top */
+    .scroll-top {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      border: none;
+      background: var(--gradient-main);
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.25s ease;
+      z-index: 1190;
+    }
+
+    .scroll-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: all 0.7s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* keyframes */
+    @keyframes floatBlob {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes floatCard {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* responsive */
+    @media (max-width: 1100px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-inner,
+      .volunteer-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        max-width: 520px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .mission-grid,
+      .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .menu {
+        position: absolute;
+        top: 82px;
+        left: 0;
+        right: 0;
+        background: rgba(255,255,255,0.97);
+        backdrop-filter: blur(14px);
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 22px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .menu.open {
+        display: flex;
+      }
+
+      .burger {
+        display: inline-grid;
+        place-items: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section {
+        padding: 70px 0;
+      }
+
+      .mission-grid,
+      .projects-grid,
+      .steps-grid,
+      .stats-grid,
+      .contact-grid,
+      .form-grid,
+      .checkbox-grid,
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 92vh;
+      }
+
+      .hero-text h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero-text p {
+        font-size: 1rem;
+      }
+
+      .header-actions > .btn {
+        display: none;
+      }
+
+      .lang-switch {
+        display: none;
+      }
+
+      .facts-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .fact-controls {
+        justify-content: center;
+      }
+
+      .chat-widget {
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .scroll-top {
+        left: 12px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container nav">
+      <a href="#home" class="logo">
+        <span class="logo-mark">🤝</span>
+        <span>Asar Hub</span>
+      </a>
+
+      <nav class="menu" id="menu">
+        <a href="#home" data-kk="Басты" data-ru="Главная">Басты</a>
+        <a href="#mission" data-kk="Миссия" data-ru="Миссия">Миссия</a>
+        <a href="#projects" data-kk="Жобалар" data-ru="Проекты">Жобалар</a>
+        <a href="#join" data-kk="Қатысу" data-ru="Участие">Қатысу</a>
+        <a href="#contact" data-kk="Байланыс" data-ru="Контакты">Байланыс</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-switch">
+          <button class="lang-btn active" data-lang="kk">Қазақша</button>
+          <button class="lang-btn" data-lang="ru">Русский</button>
+        </div>
+        <a href="#volunteer-form" class="btn btn-green" data-kk="Қосылу" data-ru="Присоединиться">Қосылу</a>
+        <button class="burger" id="burger">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="container hero-inner">
+      <div class="hero-text reveal">
+        <span class="hero-badge" data-kk="🌿 Атырау волонтерлары" data-ru="🌿 Волонтёры Атырау">🌿 Атырау волонтерлары</span>
+
+        <h1 data-kk="Біргеміз – бәрімізге көмектесеміз!" data-ru="Вместе — помогаем каждому!">
+          Біргеміз – бәрімізге көмектесеміз!
+        </h1>
+
+        <p data-kk="Волонтерлық жобаларға қосылып, қоғамға пайда тигіз! Асар рухымен жақсылық жасап, жаңа достар мен тәжірибе тап 💚"
+           data-ru="Присоединяйся к волонтёрским проектам и приноси пользу обществу! Делай добро в духе Асара, находи друзей и новый опыт 💚">
+          Волонтерлық жобаларға қосылып, қоғамға пайда тигіз! Асар рухымен жақсылық жасап, жаңа достар мен тәжірибе тап 💚
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-blue" data-kk="Жобаларға қарау" data-ru="Посмотреть проекты">Жобаларға қарау</a>
+          <a href="#volunteer-form" class="btn btn-green" data-kk="Қосылу" data-ru="Присоединиться">Қосылу</a>
+          <a href="#mission" class="btn btn-outline" data-kk="Көбірек білу" data-ru="Узнать больше">Көбірек білу</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>100+</strong>
+            <span data-kk="Қатысушы" data-ru="Участников">Қатысушы</span>
+          </div>
+          <div class="hero-stat">
+            <strong>12</strong>
+            <span data-kk="Жоба" data-ru="Проектов">Жоба</span>
+          </div>
+          <div class="hero-stat">
+            <strong>24/7</strong>
+            <span data-kk="Қолдау" data-ru="Поддержка">Қолдау</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card reveal">
+        <h3 data-kk="Неге Asar Hub?" data-ru="Почему Asar Hub?">Неге Asar Hub?</h3>
+        <p data-kk="Бұл — жай сайт емес. Бұл Атыраудағы бірлік, көмек және шабыт алаңы 🌟"
+           data-ru="Это не просто сайт. Это пространство единства, помощи и вдохновения в Атырау 🌟">
+          Бұл — жай сайт емес. Бұл Атыраудағы бірлік, көмек және шабыт алаңы 🌟
+        </p>
+
+        <div class="hero-card-list">
+          <div class="hero-card-item">
+            <span>💚</span>
+            <span data-kk="Мұқтаж жандарға нақты көмек" data-ru="Реальная помощь тем, кто нуждается">Мұқтаж жандарға нақты көмек</span>
+          </div>
+          <div class="hero-card-item">
+            <span>🌍</span>
+            <span data-kk="Экологиялық бастамалар" data-ru="Экологические инициативы">Экологиялық бастамалар</span>
+          </div>
+          <div class="hero-card-item">
+            <span>📚</span>
+            <span data-kk="Білім және мәдени іс-шаралар" data-ru="Образовательные и культурные мероприятия">Білім және мәдени іс-шаралар</span>
+          </div>
+        </div>
+
+        <a href="#volunteer-form" class="btn btn-yellow" data-kk="Мен де көмектесемін!" data-ru="Я тоже хочу помогать!">Мен де көмектесемін!</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="section" id="mission">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="mini" data-kk="🌱 Біздің бағытымыз" data-ru="🌱 Наше направление">🌱 Біздің бағытымыз</span>
+        <h2 data-kk="Біздің миссиямыз" data-ru="Наша миссия">Біздің миссиямыз</h2>
+        <p data-kk="Асар дәстүрін заманауи волонтерлық қозғалысқа айналдырып, қоғамға пайда әкелу."
+           data-ru="Превратить традицию Асар в современное волонтёрское движение и приносить пользу обществу.">
+          Асар дәстүрін заманауи волонтерлық қозғалысқа айналдырып, қоғамға пайда әкелу.
+        </p>
+      </div>
+
+      <div class="mission-grid">
+        <div class="card mission-card reveal">
+          <div class="icon-circle">💚</div>
+          <h3 data-kk="Қолдау көрсету" data-ru="Поддержка">Қолдау көрсету</h3>
+          <p data-kk="Қарттарға, балаларға және мұқтаж жандарға көмек көрсету."
+             data-ru="Помощь пожилым людям, детям и тем, кто нуждается.">
+            Қарттарға, балаларға және мұқтаж жандарға көмек көрсету.
+          </p>
+        </div>
+
+        <div class="card mission-card reveal">
+          <div class="icon-circle">🌍</div>
+          <h3 data-kk="Экология" data-ru="Экология">Экология</h3>
+          <p data-kk="Қала тазалығын сақтау және табиғатты қорғауға үлес қосу."
+             data-ru="Поддерживать чистоту города и вносить вклад в защиту природы.">
+            Қала тазалығын сақтау және табиғатты қорғауға үлес қосу.
+          </p>
+        </div>
+
+        <div class="card mission-card reveal">
+          <div class="icon-circle">📚</div>
+          <h3 data-kk="Білім беру" data-ru="Образование">Білім беру</h3>
+          <p data-kk="Мәдени, ағартушылық және білім беру шараларына қатысу."
+             data-ru="Участвовать в культурных, просветительских и образовательных мероприятиях.">
+            Мәдени, ағартушылық және білім беру шараларына қатысу.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FACTS -->
+  <section class="section facts-section">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="mini" data-kk="✨ Бүгінгі бөлім" data-ru="✨ Сегодняшний блок">✨ Бүгінгі бөлім</span>
+        <h2 data-kk="Қызықты мәліметтер" data-ru="Интересные факты">Қызықты мәліметтер</h2>
+        <p data-kk="Волонтерлік туралы қысқа әрі шабытты деректер."
+           data-ru="Короткие и вдохновляющие факты о волонтёрстве.">
+          Волонтерлік туралы қысқа әрі шабытты деректер.
+        </p>
+      </div>
+
+      <div class="facts-wrap reveal">
+        <div class="fact-box" id="factBox">🌱 Қазақстанда 1000+ волонтер әрекет етеді!</div>
+        <div class="fact-controls">
+          <button class="fact-btn" id="prevFact">⟨</button>
+          <button class="fact-btn" id="nextFact">⟩</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="mini" data-kk="🚀 Қосыла алатын бағыттар" data-ru="🚀 Направления для участия">🚀 Қосыла алатын бағыттар</span>
+        <h2 data-kk="Біздің жобалар" data-ru="Наши проекты">Біздің жобалар</h2>
+        <p data-kk="Өзіңе ұнайтын жобаға қосылып, пайдалы іспен айналыс."
+           data-ru="Выбирай проект по душе и занимайся полезным делом.">
+          Өзіңе ұнайтын жобаға қосылып, пайдалы іспен айналыс.
+        </p>
+      </div>
+
+      <div class="projects-grid">
+        <div class="card project-card reveal">
+          <div class="project-emoji">🌳</div>
+          <h3 data-kk="Таза Атырау" data-ru="Чистый Атырау">Таза Атырау</h3>
+          <p data-kk="Қаланы тазарту, сенбілік ұйымдастыру және ағаш отырғызу акциялары."
+             data-ru="Уборка города, субботники и акции по посадке деревьев.">
+            Қаланы тазарту, сенбілік ұйымдастыру және ағаш отырғызу акциялары.
+          </p>
+          <a href="#volunteer-form" class="btn btn-green" data-kk="Қосылу" data-ru="Присоединиться">Қосылу</a>
+        </div>
+
+        <div class="card project-card reveal">
+          <div class="project-emoji">👵</div>
+          <h3 data-kk="Ардагерге көмек" data-ru="Помощь пожилым">Ардагерге көмек</h3>
+          <p data-kk="Қарттар мен жалғызбасты жандарға күнделікті тұрмыстық көмек беру."
+             data-ru="Ежедневная бытовая помощь пожилым и одиноким людям.">
+            Қарттар мен жалғызбасты жандарға күнделікті тұрмыстық көмек беру.
+          </p>
+          <a href="#volunteer-form" class="btn btn-green" data-kk="Қосылу" data-ru="Присоединиться">Қосылу</a>
+        </div>
+
+        <div class="card project-card reveal">
+          <div class="project-emoji">🎓</div>
+          <h3 data-kk="Білім шуағы" data-ru="Свет знаний">Білім шуағы</h3>
+          <p data-kk="Балаларға арналған шеберлік сабақтары, оқу кездесулері және тренингтер."
+             data-ru="Мастер-классы, учебные встречи и тренинги для детей.">
+            Балаларға арналған шеберлік сабақтары, оқу кездесулері және тренингтер.
+          </p>
+          <a href="#volunteer-form" class="btn btn-green" data-kk="Қосылу" data-ru="Присоединиться">Қосылу</a>
+        </div>
+
+        <div class="card project-card reveal">
+          <div class="project-emoji">🤝</div>
+          <h3 data-kk="Asar Days" data-ru="Asar Days">Asar Days</h3>
+          <p data-kk="Қоғамдық пайдалы кездесулер, еріктілер күні және достық шаралары."
+             data-ru="Полезные общественные встречи, дни волонтёра и дружеские мероприятия.">
+            Қоғамдық пайдалы кездесулер, еріктілер күні және достық шаралары.
+          </p>
+          <a href="#volunteer-form" class="btn btn-green" data-kk="Қосылу" data-ru="Присоединиться">Қосылу</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO JOIN -->
+  <section class="section" id="join">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="mini" data-kk="🤝 Бар болғаны 3 қадам" data-ru="🤝 Всего 3 шага">🤝 Бар болғаны 3 қадам</span>
+        <h2 data-kk="Қалай қосылуға болады?" data-ru="Как присоединиться?">Қалай қосылуға болады?</h2>
+        <p data-kk="Командамызға қосылу оңай, тез және көңілді!"
+           data-ru="Присоединиться к нашей команде легко, быстро и приятно!">
+          Командамызға қосылу оңай, тез және көңілді!
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="card step-card reveal">
+          <div class="step-number">1</div>
+          <h3 data-kk="Парақшаға жазыл" data-ru="Подпишись на страницу">Парақшаға жазыл</h3>
+          <p data-kk="@AsarAtyrau парақшамызды бақыла"
+             data-ru="Следи за нашими обновлениями на @AsarAtyrau">
+            @AsarAtyrau парақшамызды бақыла
+          </p>
+        </div>
+
+        <div class="card step-card reveal">
+          <div class="step-number">2</div>
+          <h3 data-kk="Жобаға тіркел" data-ru="Запишись на проект">Жобаға тіркел</h3>
+          <p data-kk="Өзіңе қызық бағытты таңда да форма жібер"
+             data-ru="Выбери интересное направление и отправь форму">
+            Өзіңе қызық бағытты таңда да форма жібер
+          </p>
+        </div>
+
+        <div class="card step-card reveal">
+          <div class="step-number">3</div>
+          <h3 data-kk="Асар рухымен әрекет ет!" data-ru="Действуй в духе Асара!">Асар рухымен әрекет ет!</h3>
+          <p data-kk="Жақсылық жасап, қоғамға пайдаңды тигіз"
+             data-ru="Твори добро и приноси пользу обществу">
+            Жақсылық жасап, қоғамға пайдаңды тигіз
+          </p>
+        </div>
+      </div>
+
+      <div class="center-btn reveal">
+        <a href="#volunteer-form" class="btn btn-yellow" data-kk="Қазір қосылу" data-ru="Присоединиться сейчас">Қазір қосылу</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOLUNTEER FORM -->
+  <section class="section" id="volunteer-form">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="mini" data-kk="📝 Тіркеу" data-ru="📝 Регистрация">📝 Тіркеу</span>
+        <h2 data-kk="Волонтёр тіркеу бөлімі" data-ru="Регистрация волонтёров">Волонтёр тіркеу бөлімі</h2>
+        <p data-kk="Форманы толтыр да, жақсылық жасаушылар қатарына қосыл!"
+           data-ru="Заполни форму и стань частью команды добрых дел!">
+          Форманы толтыр да, жақсылық жасаушылар қатарына қосыл!
+        </p>
+      </div>
+
+      <div class="volunteer-wrap">
+        <div class="form-side reveal">
+          <h3 data-kk="Asar Hub-қа қош келдің!" data-ru="Добро пожаловать в Asar Hub!">Asar Hub-қа қош келдің!</h3>
+          <p data-kk="Бізбен бірге сен тек көмектесіп қана қоймай, жаңа тәжірибе, жаңа орта және шабыт аласың ✨"
+             data-ru="С нами ты не только помогаешь другим, но и получаешь новый опыт, новое окружение и вдохновение ✨">
+            Бізбен бірге сен тек көмектесіп қана қоймай, жаңа тәжірибе, жаңа орта және шабыт аласың ✨
+          </p>
+
+          <div class="join-features">
+            <div class="join-feature">
+              <span>🌟</span>
+              <span data-kk="Қоғамға пайдалы іс" data-ru="Полезные дела для общества">Қоғамға пайдалы іс</span>
+            </div>
+            <div class="join-feature">
+              <span>💬</span>
+              <span data-kk="Жаңа достар мен команда" data-ru="Новые друзья и команда">Жаңа достар мен команда</span>
+            </div>
+            <div class="join-feature">
+              <span>📈</span>
+              <span data-kk="Тәжірибе мен дағды" data-ru="Опыт и навыки">Тәжірибе мен дағды</span>
+            </div>
+            <div class="join-feature">
+              <span>💚</span>
+              <span data-kk="Асар рухы және мотивация" data-ru="Дух Асара и мотивация">Асар рухы және мотивация</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="volunteer-form reveal" id="volunteerForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name" data-kk="Аты-жөні" data-ru="Имя и фамилия">Аты-жөні</label>
+              <input type="text" id="name" placeholder="Аты-жөніңіз / Ваше имя" required>
+            </div>
+
+            <div class="form-group">
+              <label for="city" data-kk="Қала" data-ru="Город">Қала</label>
+              <input type="text" id="city" placeholder="Атырау">
+            </div>
+
+            <div class="form-group full">
+              <label for="contactInput" data-kk="Электронды пошта / телефон" data-ru="Электронная почта / телефон">Электронды пошта / телефон</label>
+              <input type="text" id="contactInput" placeholder="Email немесе телефон / Email или телефон" required>
+            </div>
+
+            <div class="form-group full">
+              <span class="checkbox-title" data-kk="Қызығушылық бағыттары" data-ru="Интересующие направления">Қызығушылық бағыттары</span>
+              <div class="checkbox-grid">
+                <label><input type="checkbox" name="interest" value="Экология"> <span data-kk="Экология" data-ru="Экология">Экология</span></label>
+                <label><input type="checkbox" name="interest" value="Қарттарға көмек"> <span data-kk="Қарттарға көмек" data-ru="Помощь пожилым">Қарттарға көмек</span></label>
+                <label><input type="checkbox" name="interest" value="Балаларға көмек"> <span data-kk="Балаларға көмек" data-ru="Помощь детям">Балаларға көмек</span></label>
+                <label><input type="checkbox" name="interest" value="Білім беру"> <span data-kk="Білім беру" data-ru="Образование">Білім беру</span></label>
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <button type="submit" class="btn btn-green btn-full" data-kk="Мен қосыламын!" data-ru="Я присоединяюсь!">Мен қосыламын!</button>
+              <p class="form-message" id="formMessage"></p>
+              <p class="storage-note" data-kk="Ескерту: GitHub Pages үшін форма деректері браузерде localStorage арқылы сақталады."
+                 data-ru="Примечание: для GitHub Pages данные формы сохраняются в браузере через localStorage.">
+                Ескерту: GitHub Pages үшін форма деректері браузерде localStorage арқылы сақталады.
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="mini" data-kk="📊 Қысқаша көрсеткіштер" data-ru="📊 Краткие показатели">📊 Қысқаша көрсеткіштер</span>
+        <h2 data-kk="Asar Hub сандармен" data-ru="Asar Hub в цифрах">Asar Hub сандармен</h2>
+        <p data-kk="Жақсылықтың күші — бірлікте."
+           data-ru="Сила добрых дел — в единстве.">
+          Жақсылықтың күші — бірлікте.
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="card stat-card reveal">
+          <strong data-counter="150">0</strong>
+          <span data-kk="Тіркелген волонтёр" data-ru="Зарегистрированных волонтёров">Тіркелген волонтёр</span>
+        </div>
+        <div class="card stat-card reveal">
+          <strong data-counter="24">0</strong>
+          <span data-kk="Өткізілген шара" data-ru="Проведённых мероприятий">Өткізілген шара</span>
+        </div>
+        <div class="card stat-card reveal">
+          <strong data-counter="12">0</strong>
+          <span data-kk="Белсенді жоба" data-ru="Активных проектов">Белсенді жоба</span>
+        </div>
+        <div class="card stat-card reveal">
+          <strong data-counter="300">0</strong>
+          <span data-kk="Жақсылық сағаты" data-ru="Часов добрых дел">Жақсылық сағаты</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="mini" data-kk="📬 Бізбен байланыс" data-ru="📬 Связь с нами">📬 Бізбен байланыс</span>
+        <h2 data-kk="Байланыс" data-ru="Контакты">Байланыс</h2>
+        <p data-kk="Әлеуметтік желілерде бізбен бірге бол және жаңалықтарды өткізіп алма."
+           data-ru="Будь с нами в социальных сетях и не пропускай новости.">
+          Әлеуметтік желілерде бізбен бірге бол және жаңалықтарды өткізіп алма.
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="card contact-card reveal">
+          <div class="contact-icon">📸</div>
+          <h3>Instagram</h3>
+          <a href="https://instagram.com" target="_blank">@AsarAtyrau</a>
+        </div>
+
+        <div class="card contact-card reveal">
+          <div class="contact-icon">✈️</div>
+          <h3>Telegram</h3>
+          <a href="https://t.me" target="_blank">@AsarAtyrau</a>
+        </div>
+
+        <div class="card contact-card reveal">
+          <div class="contact-icon">📘</div>
+          <h3>Facebook</h3>
+          <a href="https://facebook.com" target="_blank">Asar Hub</a>
+        </div>
+
+        <div class="card contact-card reveal">
+          <div class="contact-icon">📧</div>
+          <h3>Email</h3>
+          <a href="mailto:info@asarhub.kz">info@asarhub.kz</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <strong>Asar Hub 🤝</strong>
+        <p data-kk="Мекен-жай: Атырау қаласы" data-ru="Адрес: город Атырау">Мекен-жай: Атырау қаласы</p>
+        <small data-kk="Асар — өзара көмек пен бірліктің белгісі."
+               data-ru="Асар — символ взаимопомощи и единства.">
+          Асар — өзара көмек пен бірліктің белгісі.
+        </small>
+      </div>
+      <div>
+        <p>© 2026 Asar Hub</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CHAT -->
+  <div class="chat-widget">
+    <div class="chat-box" id="chatBox">
+      <div class="chat-header">
+        <span>Ask Asar 🌟</span>
+        <button id="closeChat">✖</button>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="message bot" id="initialBotMessage">
+          Сәлем! Мен Ask Asar 🤝
+          Жоба, тіркелу немесе байланыс жайлы сұрағыңды жаза бер 🌿
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Сұрақ қойыңыз / Задайте вопрос">
+        <button id="sendChat" data-kk="Жіберу" data-ru="Отправить">Жіберу</button>
+      </div>
+    </div>
+
+    <button class="chat-toggle" id="chatToggle">💬 Ask Asar</button>
+  </div>
+
+  <!-- SCROLL TOP -->
+  <button class="scroll-top" id="scrollTop">↑</button>
+
+  <script>
+    // =========================
+    // MENU
+    // =========================
+    const burger = document.getElementById("burger");
+    const menu = document.getElementById("menu");
+
+    burger.addEventListener("click", () => {
+      menu.classList.toggle("open");
+    });
+
+    document.querySelectorAll(".menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        menu.classList.remove("open");
+      });
+    });
+
+    // =========================
+    // LANGUAGE SWITCH
+    // =========================
+    const langButtons = document.querySelectorAll(".lang-btn");
+    let currentLang = localStorage.getItem("asar_lang") || "kk";
+
+    function updatePlaceholders(lang) {
+      const name = document.getElementById("name");
+      const city = document.getElementById("city");
+      const contactInput = document.getElementById("contactInput");
+      const chatInput = document.getElementById("chatInput");
+      const initialBotMessage = document.getElementById("initialBotMessage");
+
+      if (lang === "kk") {
+        document.documentElement.lang = "kk";
+        name.placeholder = "Аты-жөніңіз";
+        city.placeholder = "Атырау";
+        contactInput.placeholder = "Email немесе телефон";
+        chatInput.placeholder = "Сұрақ қойыңыз";
+        initialBotMessage.textContent = "Сәлем! Мен Ask Asar 🤝\nЖоба, тіркелу немесе байланыс жайлы сұрағыңды жаза бер 🌿";
+      } else {
+        document.documentElement.lang = "ru";
+        name.placeholder = "Ваше имя";
+        city.placeholder = "Атырау";
+        contactInput.placeholder = "Email или телефон";
+        chatInput.placeholder = "Задайте вопрос";
+        initialBotMessage.textContent = "Привет! Я Ask Asar 🤝\nПиши свой вопрос о проектах, регистрации или контактах 🌿";
+      }
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem("asar_lang", lang);
+
+      document.querySelectorAll("[data-kk][data-ru]").forEach(el => {
+        el.textContent = el.getAttribute(`data-${lang}`);
+      });
+
+      langButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+      });
+
+      updatePlaceholders(lang);
+      renderCurrentFact();
+    }
+
+    langButtons.forEach(btn => {
+      btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+    });
+
+    setLanguage(currentLang);
+
+    // =========================
+    // REVEAL ON SCROLL
+    // =========================
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // =========================
+    // FACTS SLIDER
+    // =========================
+    const factBox = document.getElementById("factBox");
+    const prevFact = document.getElementById("prevFact");
+    const nextFact = document.getElementById("nextFact");
+
+    const facts = {
+      kk: [
+        "🌱 Қазақстанда 1000+ волонтер әрекет етеді!",
+        "🤝 Асар – қазақ дәстүрінен шыққан волонтерлық қозғалыс!",
+        "💚 Кішкентай көмек үлкен өзгеріске бастайды!",
+        "📚 Волонтер болу – жаңа дағды мен жаңа достар табу!",
+        "🌍 Табиғатты қорғау – болашаққа қамқорлық!"
+      ],
+      ru: [
+        "🌱 В Казахстане действует более 1000 волонтёров!",
+        "🤝 Асар — это традиция взаимопомощи, ставшая волонтёрским движением!",
+        "💚 Маленькая помощь может привести к большим переменам!",
+        "📚 Волонтёрство — это новые навыки и новые друзья!",
+        "🌍 Забота о природе — это забота о будущем!"
+      ]
+    };
+
+    let factIndex = 0;
+
+    function renderCurrentFact() {
+      const currentFacts = facts[currentLang];
+      factBox.style.animation = "none";
+      void factBox.offsetWidth;
+      factBox.style.animation = "fadeSlide 0.6s ease";
+      factBox.textContent = currentFacts[factIndex];
+    }
+
+    function nextFactSlide() {
+      factIndex = (factIndex + 1) % facts[currentLang].length;
+      renderCurrentFact();
+    }
+
+    function prevFactSlide() {
+      factIndex = (factIndex - 1 + facts[currentLang].length) % facts[currentLang].length;
+      renderCurrentFact();
+    }
+
+    nextFact.addEventListener("click", nextFactSlide);
+    prevFact.addEventListener("click", prevFactSlide);
+
+    renderCurrentFact();
+    setInterval(nextFactSlide, 6000);
+
+    // =========================
+    // FORM SAVE
+    // =========================
+    const volunteerForm = document.getElementById("volunteerForm");
+    const formMessage = document.getElementById("formMessage");
+
+    volunteerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const contact = document.getElementById("contactInput").value.trim();
+      const interests = Array.from(document.querySelectorAll('input[name="interest"]:checked')).map(i => i.value);
+
+      if (!name || !contact) {
+        formMessage.textContent = currentLang === "kk"
+          ? "⚠️ Міндетті жолдарды толтырыңыз."
+          : "⚠️ Заполните обязательные поля.";
+        return;
+      }
+
+      const volunteerData = {
+        name,
+        city,
+        contact,
+        interests,
+        createdAt: new Date().toISOString()
+      };
+
+      const existing = JSON.parse(localStorage.getItem("asar_volunteers") || "[]");
+      existing.push(volunteerData);
+      localStorage.setItem("asar_volunteers", JSON.stringify(existing));
+
+      formMessage.textContent = currentLang === "kk"
+        ? "🎉 Керемет! Өтінімің сәтті сақталды!"
+        : "🎉 Отлично! Твоя заявка успешно сохранена!";
+
+      volunteerForm.reset();
+    });
+
+    // =========================
+    // CHATBOT
+    // =========================
+    const chatToggle = document.getElementById("chatToggle");
+    const chatBox = document.getElementById("chatBox");
+    const closeChat = document.getElementById("closeChat");
+    const sendChat = document.getElementById("sendChat");
+    const chatInput = document.getElementById("chatInput");
+    const chatMessages = document.getElementById("chatMessages");
+
+    chatToggle.addEventListener("click", () => {
+      chatBox.classList.toggle("open");
+    });
+
+    closeChat.addEventListener("click", () => {
+      chatBox.classList.remove("open");
+    });
+
+    function addMessage(text, sender) {
+      const div = document.createElement("div");
+      div.className = `message ${sender}`;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function getBotReply(question) {
+      const q = question.toLowerCase();
+
+      if (currentLang === "kk") {
+        if ((q.includes("қалай") || q.includes("қосыл")) && (q.includes("волонтер") || q.includes("тіркел") || q.includes("қатысу"))) {
+          return "Өте оңай! ‘Қосылу’ батырмасын басып, формаға деректеріңді енгіз 🌟🤝💚";
+        }
+        if (q.includes("жоба")) {
+          return "Біздің жобалар бөлімінен өзіңе ұнаған бағытты таңдай аласың 🚀🌿";
+        }
+        if (q.includes("байланыс") || q.includes("instagram") || q.includes("telegram") || q.includes("email")) {
+          return "Бізбен Instagram, Telegram немесе email арқылы байланыса аласың 📩😊";
+        }
+        if (q.includes("атырау") || q.includes("қай қала") || q.includes("мекен")) {
+          return "Біз Атырау қаласында жұмыс істейміз 🏙️💚";
+        }
+        if (q.includes("сәлем") || q.includes("салам")) {
+          return "Сәлем! Сені көргеніме қуаныштымын 🌟 Қандай сұрағың бар?";
+        }
+        return "Керемет сұрақ! ‘Қатысу’ немесе ‘Байланыс’ бөлімін қарап шық 🤝✨";
+      } else {
+        if ((q.includes("как") || q.includes("присоедин")) && (q.includes("волонтер") || q.includes("зарегистр") || q.includes("участ"))) {
+          return "Очень просто! Нажми кнопку ‘Присоединиться’ и заполни форму 🌟🤝💚";
+        }
+        if (q.includes("проект")) {
+          return "В разделе проектов ты можешь выбрать направление, которое тебе нравится 🚀🌿";
+        }
+        if (q.includes("контакт") || q.includes("instagram") || q.includes("telegram") || q.includes("email")) {
+          return "Ты можешь связаться с нами через Instagram, Telegram или email 📩😊";
+        }
+        if (q.includes("атырау") || q.includes("город") || q.includes("адрес")) {
+          return "Мы работаем в городе Атырау 🏙️💚";
+        }
+        if (q.includes("привет")) {
+          return "Привет! Очень рад тебя видеть 🌟 Чем могу помочь?";
+        }
+        return "Отличный вопрос! Посмотри разделы ‘Участие’ и ‘Контакты’ 🤝✨";
+      }
+    }
+
+    function handleChat() {
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user");
+
+      setTimeout(() => {
+        addMessage(getBotReply(text), "bot");
+      }, 450);
+
+      chatInput.value = "";
+    }
+
+    sendChat.addEventListener("click", handleChat);
+    chatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        handleChat();
+      }
+    });
+
+    // =========================
+    // SCROLL TOP
+    // =========================
+    const scrollTopBtn = document.getElementById("scrollTop");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 500) {
+        scrollTopBtn.classList.add("show");
+      } else {
+        scrollTopBtn.classList.remove("show");
+      }
+    });
+
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // =========================
+    // COUNTERS
+    // =========================
+    const counterElements = document.querySelectorAll("[data-counter]");
+    let countersStarted = false;
+
+    function animateCounter(el) {
+      const target = +el.dataset.counter;
+      let current = 0;
+      const increment = Math.max(1, Math.ceil(target / 60));
+
+      const interval = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(interval);
+        }
+        el.textContent = current;
+      }, 25);
+    }
+
+    const statsSection = document.querySelector(".stats-grid");
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !countersStarted) {
+          countersStarted = true;
+          counterElements.forEach(animateCounter);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    if (statsSection) {
+      statsObserver.observe(statsSection);
+    }
+  </script>
+</body>
+</html>
