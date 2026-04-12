@@ -1561,400 +1561,402 @@
 
   <button class="scroll-top" id="scrollTop">↑</button>
 
-  <script type="module">
- // document.body.classList.add("js");
-import { firebaseConfig } from "./firebase-config.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script type="module">
+  import { firebaseConfig } from "./firebase-config.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-    // Menu
-    const burger = document.getElementById("burger");
-    const menu = document.getElementById("menu");
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    burger.addEventListener("click", () => {
-      menu.classList.toggle("open");
-    });
+  // Menu
+  const burger = document.getElementById("burger");
+  const menu = document.getElementById("menu");
 
-    document.querySelectorAll(".menu a").forEach(link => {
-      link.addEventListener("click", () => menu.classList.remove("open"));
-    });
+  burger.addEventListener("click", () => {
+    menu.classList.toggle("open");
+  });
 
-    // Language
-    const langButtons = document.querySelectorAll(".lang-btn");
-    let currentLang = localStorage.getItem("asar_lang") || "kk";
+  document.querySelectorAll(".menu a").forEach(link => {
+    link.addEventListener("click", () => menu.classList.remove("open"));
+  });
 
-    function updatePlaceholders(lang){
-      const name = document.getElementById("name");
-      const city = document.getElementById("city");
-      const contactInput = document.getElementById("contactInput");
-      const message = document.getElementById("message");
-      const chatInput = document.getElementById("chatInput");
-      const initialBotMessage = document.getElementById("initialBotMessage");
+  // Language
+  const langButtons = document.querySelectorAll(".lang-btn");
+  let currentLang = localStorage.getItem("asar_lang") || "kk";
 
-      if(lang === "kk"){
-        document.documentElement.lang = "kk";
-        name.placeholder = "Аты-жөніңіз";
-        city.placeholder = "Атырау";
-        contactInput.placeholder = "Email немесе телефон";
-        message.placeholder = "Қысқаша өзіңіз туралы";
-        chatInput.placeholder = "Сұрақ қойыңыз";
-        initialBotMessage.textContent = "Сәлем! Мен Ask Asar 🤝\nЖоба, тіркелу немесе байланыс жайлы сұрағыңды жаза бер 🌿";
-      } else {
-        document.documentElement.lang = "ru";
-        name.placeholder = "Ваше имя";
-        city.placeholder = "Атырау";
-        contactInput.placeholder = "Email или телефон";
-        message.placeholder = "Коротко о себе";
-        chatInput.placeholder = "Задайте вопрос";
-        initialBotMessage.textContent = "Привет! Я Ask Asar 🤝\nПиши свой вопрос о проектах, регистрации или контактах 🌿";
+  function updatePlaceholders(lang) {
+    const name = document.getElementById("name");
+    const city = document.getElementById("city");
+    const contactInput = document.getElementById("contactInput");
+    const message = document.getElementById("message");
+    const chatInput = document.getElementById("chatInput");
+    const initialBotMessage = document.getElementById("initialBotMessage");
+
+    if (lang === "kk") {
+      document.documentElement.lang = "kk";
+      name.placeholder = "Аты-жөніңіз";
+      city.placeholder = "Атырау";
+      contactInput.placeholder = "Email немесе телефон";
+      message.placeholder = "Қысқаша өзіңіз туралы";
+      chatInput.placeholder = "Сұрақ қойыңыз";
+      initialBotMessage.textContent = "Сәлем! Мен Ask Asar 🤝\nЖоба, тіркелу немесе байланыс жайлы сұрағыңды жаза бер 🌿";
+    } else {
+      document.documentElement.lang = "ru";
+      name.placeholder = "Ваше имя";
+      city.placeholder = "Атырау";
+      contactInput.placeholder = "Email или телефон";
+      message.placeholder = "Коротко о себе";
+      chatInput.placeholder = "Задайте вопрос";
+      initialBotMessage.textContent = "Привет! Я Ask Asar 🤝\nПиши свой вопрос о проектах, регистрации или контактах 🌿";
+    }
+  }
+
+  // Reveal on scroll
+  const revealElements = document.querySelectorAll(".reveal");
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
       }
-    }
+    });
+  }, { threshold: 0.15 });
 
-    function setLanguage(lang){
-      currentLang = lang;
-      localStorage.setItem("asar_lang", lang);
+  revealElements.forEach(el => revealObserver.observe(el));
 
-      document.querySelectorAll("[data-kk][data-ru]").forEach(el => {
-        el.textContent = el.getAttribute("data-" + lang);
-      });
+  // Facts
+  const factBox = document.getElementById("factBox");
+  const prevFact = document.getElementById("prevFact");
+  const nextFact = document.getElementById("nextFact");
 
-      langButtons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.lang === lang);
-      });
+  const facts = {
+    kk: [
+      "🌱 Қазақстанда 1000+ волонтер әрекет етеді!",
+      "🤝 Асар – қазақ дәстүрінен шыққан волонтерлік қозғалыс!",
+      "💚 Кішкентай көмек үлкен өзгеріске бастайды!",
+      "📚 Волонтер болу – жаңа дағды мен жаңа достар табу!",
+      "🌍 Табиғатты қорғау – болашаққа қамқорлық!"
+    ],
+    ru: [
+      "🌱 В Казахстане действует более 1000 волонтёров!",
+      "🤝 Асар — это традиция взаимопомощи, ставшая волонтёрским движением!",
+      "💚 Маленькая помощь может привести к большим переменам!",
+      "📚 Волонтёрство — это новые навыки и новые друзья!",
+      "🌍 Забота о природе — это забота о будущем!"
+    ]
+  };
 
-      updatePlaceholders(lang);
-      renderFact();
-    }
+  let factIndex = 0;
+
+  function renderFact() {
+    const list = facts[currentLang];
+    factBox.textContent = list[factIndex];
+  }
+
+  function nextFactSlide() {
+    factIndex = (factIndex + 1) % facts[currentLang].length;
+    renderFact();
+  }
+
+  function prevFactSlide() {
+    factIndex = (factIndex - 1 + facts[currentLang].length) % facts[currentLang].length;
+    renderFact();
+  }
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem("asar_lang", lang);
+
+    document.querySelectorAll("[data-kk][data-ru]").forEach(el => {
+      el.textContent = el.getAttribute("data-" + lang);
+    });
 
     langButtons.forEach(btn => {
-      btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+      btn.classList.toggle("active", btn.dataset.lang === lang);
     });
 
-    setLanguage(currentLang);
-
-    // Reveal on scroll
-    const revealElements = document.querySelectorAll(".reveal");
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add("active");
-        }
-      });
-    }, { threshold: 0.15 });
-
-    revealElements.forEach(el => revealObserver.observe(el));
-
-    // Facts
-    const factBox = document.getElementById("factBox");
-    const prevFact = document.getElementById("prevFact");
-    const nextFact = document.getElementById("nextFact");
-
-    const facts = {
-      kk: [
-        "🌱 Қазақстанда 1000+ волонтер әрекет етеді!",
-        "🤝 Асар – қазақ дәстүрінен шыққан волонтерлік қозғалыс!",
-        "💚 Кішкентай көмек үлкен өзгеріске бастайды!",
-        "📚 Волонтер болу – жаңа дағды мен жаңа достар табу!",
-        "🌍 Табиғатты қорғау – болашаққа қамқорлық!"
-      ],
-      ru: [
-        "🌱 В Казахстане действует более 1000 волонтёров!",
-        "🤝 Асар — это традиция взаимопомощи, ставшая волонтёрским движением!",
-        "💚 Маленькая помощь может привести к большим переменам!",
-        "📚 Волонтёрство — это новые навыки и новые друзья!",
-        "🌍 Забота о природе — это забота о будущем!"
-      ]
-    };
-
-    let factIndex = 0;
-
-    function renderFact(){
-      const list = facts[currentLang];
-      factBox.textContent = list[factIndex];
-    }
-
-    function nextFactSlide(){
-      factIndex = (factIndex + 1) % facts[currentLang].length;
-      renderFact();
-    }
-
-    function prevFactSlide(){
-      factIndex = (factIndex - 1 + facts[currentLang].length) % facts[currentLang].length;
-      renderFact();
-    }
-
-    prevFact.addEventListener("click", prevFactSlide);
-    nextFact.addEventListener("click", nextFactSlide);
+    updatePlaceholders(lang);
     renderFact();
-    setInterval(nextFactSlide, 6000);
-
-   // Projects slider
-const projectsTrack = document.getElementById("projectsTrack");
-const prevProject = document.getElementById("prevProject");
-const nextProject = document.getElementById("nextProject");
-const slides = Array.from(document.querySelectorAll(".project-slide"));
-let currentProject = 0;
-let autoSlideInterval;
-
-function getVisibleSlides() {
-  if (window.innerWidth <= 700) return 1;
-  if (window.innerWidth <= 1100) return 2;
-  return 3;
-}
-
-function getSlideWidthPercent() {
-  return 100 / getVisibleSlides();
-}
-
-function updateProjectSlider() {
-  const visible = getVisibleSlides();
-  const maxIndex = Math.max(0, slides.length - visible);
-
-  if (currentProject > maxIndex) {
-    currentProject = maxIndex;
   }
 
-  const translate = currentProject * getSlideWidthPercent();
-  projectsTrack.style.transform = `translateX(-${translate}%)`;
-}
+  langButtons.forEach(btn => {
+    btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+  });
 
-function nextProjectSlide() {
-  const visible = getVisibleSlides();
-  const maxIndex = Math.max(0, slides.length - visible);
+  prevFact.addEventListener("click", prevFactSlide);
+  nextFact.addEventListener("click", nextFactSlide);
 
-  if (currentProject >= maxIndex) {
-    currentProject = 0;
-  } else {
-    currentProject += 1;
+  setLanguage(currentLang);
+  setInterval(nextFactSlide, 6000);
+
+  // Projects slider
+  const projectsTrack = document.getElementById("projectsTrack");
+  const prevProject = document.getElementById("prevProject");
+  const nextProject = document.getElementById("nextProject");
+  const slides = Array.from(document.querySelectorAll(".project-slide"));
+  let currentProject = 0;
+  let autoSlideInterval;
+
+  function getVisibleSlides() {
+    if (window.innerWidth <= 700) return 1;
+    if (window.innerWidth <= 1100) return 2;
+    return 3;
   }
 
-  updateProjectSlider();
-}
-
-function prevProjectSlide() {
-  const visible = getVisibleSlides();
-  const maxIndex = Math.max(0, slides.length - visible);
-
-  if (currentProject <= 0) {
-    currentProject = maxIndex;
-  } else {
-    currentProject -= 1;
+  function getSlideWidthPercent() {
+    return 100 / getVisibleSlides();
   }
 
-  updateProjectSlider();
-}
+  function updateProjectSlider() {
+    const visible = getVisibleSlides();
+    const maxIndex = Math.max(0, slides.length - visible);
 
-if (nextProject) {
-  nextProject.addEventListener("click", nextProjectSlide);
-}
-
-if (prevProject) {
-  prevProject.addEventListener("click", prevProjectSlide);
-}
-
-window.addEventListener("resize", () => {
-  updateProjectSlider();
-});
-
-function startAutoSlide() {
-  clearInterval(autoSlideInterval);
-  autoSlideInterval = setInterval(nextProjectSlide, 5000);
-}
-
-updateProjectSlider();
-startAutoSlide();
-
-    // Form
-    const volunteerForm = document.getElementById("volunteerForm");
-const formMessage = document.getElementById("formMessage");
-const submitBtn = document.getElementById("submitBtn");
-
-volunteerForm.addEventListener("submit", async function(e){
-  e.preventDefault();
-
-  const name = document.getElementById("name").value.trim();
-  const city = document.getElementById("city").value.trim();
-  const contact = document.getElementById("contactInput").value.trim();
-  const message = document.getElementById("message").value.trim();
-  const interests = Array.from(
-    document.querySelectorAll('input[name="interest"]:checked')
-  ).map(el => el.value);
-
-  if(!name || !contact){
-    formMessage.className = "form-message error";
-    formMessage.textContent = currentLang === "kk"
-      ? "⚠️ Міндетті жолдарды толтырыңыз."
-      : "⚠️ Заполните обязательные поля.";
-    return;
-  }
-
-  try{
-    submitBtn.disabled = true;
-    submitBtn.style.opacity = "0.7";
-
-    await addDoc(collection(db, "applications"), {
-      name,
-      city,
-      contact,
-      message,
-      interests,
-      status: "new",
-      createdAt: serverTimestamp()
-    });
-
-    formMessage.className = "form-message success";
-    formMessage.textContent = currentLang === "kk"
-      ? "🎉 Өтінім сәтті жіберілді!"
-      : "🎉 Заявка успешно отправлена!";
-
-    volunteerForm.reset();
-  } catch(error){
-    console.error(error);
-    formMessage.className = "form-message error";
-    formMessage.textContent = currentLang === "kk"
-      ? "❌ Қате орын алды. Кейінірек қайталап көріңіз."
-      : "❌ Произошла ошибка. Попробуйте позже.";
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.style.opacity = "1";
-  }
-});
-    // Counter animation
-    const statsGrid = document.getElementById("statsGrid");
-    const counters = document.querySelectorAll("[data-counter]");
-    let countersStarted = false;
-
-    function animateCounter(el){
-      const target = Number(el.dataset.counter);
-      let current = 0;
-      const step = Math.max(1, Math.ceil(target / 60));
-
-      const timer = setInterval(() => {
-        current += step;
-        if(current >= target){
-          current = target;
-          clearInterval(timer);
-        }
-        el.textContent = current;
-      }, 25);
+    if (currentProject > maxIndex) {
+      currentProject = maxIndex;
     }
 
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting && !countersStarted){
-          countersStarted = true;
-          counters.forEach(animateCounter);
-        }
+    const translate = currentProject * getSlideWidthPercent();
+    projectsTrack.style.transform = `translateX(-${translate}%)`;
+  }
+
+  function nextProjectSlide() {
+    const visible = getVisibleSlides();
+    const maxIndex = Math.max(0, slides.length - visible);
+
+    if (currentProject >= maxIndex) {
+      currentProject = 0;
+    } else {
+      currentProject += 1;
+    }
+
+    updateProjectSlider();
+  }
+
+  function prevProjectSlide() {
+    const visible = getVisibleSlides();
+    const maxIndex = Math.max(0, slides.length - visible);
+
+    if (currentProject <= 0) {
+      currentProject = maxIndex;
+    } else {
+      currentProject -= 1;
+    }
+
+    updateProjectSlider();
+  }
+
+  if (nextProject) {
+    nextProject.addEventListener("click", nextProjectSlide);
+  }
+
+  if (prevProject) {
+    prevProject.addEventListener("click", prevProjectSlide);
+  }
+
+  window.addEventListener("resize", () => {
+    updateProjectSlider();
+  });
+
+  function startAutoSlide() {
+    clearInterval(autoSlideInterval);
+    autoSlideInterval = setInterval(nextProjectSlide, 5000);
+  }
+
+  updateProjectSlider();
+  startAutoSlide();
+
+  // Form
+  const volunteerForm = document.getElementById("volunteerForm");
+  const formMessage = document.getElementById("formMessage");
+  const submitBtn = document.getElementById("submitBtn");
+
+  volunteerForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const contact = document.getElementById("contactInput").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const interests = Array.from(
+      document.querySelectorAll('input[name="interest"]:checked')
+    ).map(el => el.value);
+
+    if (!name || !contact) {
+      formMessage.className = "form-message error";
+      formMessage.textContent = currentLang === "kk"
+        ? "⚠️ Міндетті жолдарды толтырыңыз."
+        : "⚠️ Заполните обязательные поля.";
+      return;
+    }
+
+    try {
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = "0.7";
+
+      await addDoc(collection(db, "applications"), {
+        name,
+        city,
+        contact,
+        message,
+        interests,
+        status: "new",
+        createdAt: serverTimestamp()
       });
-    }, { threshold: 0.3 });
 
+      formMessage.className = "form-message success";
+      formMessage.textContent = currentLang === "kk"
+        ? "🎉 Өтінім сәтті жіберілді!"
+        : "🎉 Заявка успешно отправлена!";
+
+      volunteerForm.reset();
+    } catch (error) {
+      console.error(error);
+      formMessage.className = "form-message error";
+      formMessage.textContent = currentLang === "kk"
+        ? "❌ Қате орын алды. Кейінірек қайталап көріңіз."
+        : "❌ Произошла ошибка. Попробуйте позже.";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = "1";
+    }
+  });
+
+  // Counter animation
+  const statsGrid = document.getElementById("statsGrid");
+  const counters = document.querySelectorAll("[data-counter]");
+  let countersStarted = false;
+
+  function animateCounter(el) {
+    const target = Number(el.dataset.counter);
+    let current = 0;
+    const step = Math.max(1, Math.ceil(target / 60));
+
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = current;
+    }, 25);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !countersStarted) {
+        countersStarted = true;
+        counters.forEach(animateCounter);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  if (statsGrid) {
     statsObserver.observe(statsGrid);
+  }
 
-    // Chat
-    const chatToggle = document.getElementById("chatToggle");
-    const chatBox = document.getElementById("chatBox");
-    const closeChat = document.getElementById("closeChat");
-    const sendChat = document.getElementById("sendChat");
-    const chatInput = document.getElementById("chatInput");
-    const chatMessages = document.getElementById("chatMessages");
+  // Chat
+  const chatToggle = document.getElementById("chatToggle");
+  const chatBox = document.getElementById("chatBox");
+  const closeChat = document.getElementById("closeChat");
+  const sendChat = document.getElementById("sendChat");
+  const chatInput = document.getElementById("chatInput");
+  const chatMessages = document.getElementById("chatMessages");
 
-    chatToggle.addEventListener("click", () => {
-      chatBox.classList.toggle("open");
-    });
+  chatToggle.addEventListener("click", () => {
+    chatBox.classList.toggle("open");
+  });
 
-    closeChat.addEventListener("click", () => {
-      chatBox.classList.remove("open");
-    });
+  closeChat.addEventListener("click", () => {
+    chatBox.classList.remove("open");
+  });
 
-    function addMessage(text, sender){
-      const div = document.createElement("div");
-      div.className = "message " + sender;
-      div.textContent = text;
-      chatMessages.appendChild(div);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+  function addMessage(text, sender) {
+    const div = document.createElement("div");
+    div.className = "message " + sender;
+    div.textContent = text;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
 
-    function getBotReply(question){
-      const q = question.toLowerCase();
+  function getBotReply(question) {
+    const q = question.toLowerCase();
 
-      if(currentLang === "kk"){
-        if((q.includes("қалай") || q.includes("қосыл") || q.includes("тіркел")) && (q.includes("волонтер") || q.includes("қатысу") || q.includes("жоба"))){
-          return "Өте оңай! ‘Қосылу’ батырмасын басып, формаға деректеріңді енгіз 🌟🤝💚";
-        }
-        if(q.includes("жоба")){
-          return "Жобалар бөлімінен өзіңе ұнаған бағытты таңда да, бірден тіркеле аласың 🚀";
-        }
-        if(q.includes("байланыс") || q.includes("instagram") || q.includes("telegram") || q.includes("email")){
-          return "Бізбен Instagram, Telegram немесе email арқылы байланыса аласың 📩😊";
-        }
-        if(q.includes("атырау") || q.includes("қай қала") || q.includes("мекен")){
-          return "Біз Атырау қаласында жұмыс істейміз 🏙️💚";
-        }
-        if(q.includes("сәлем") || q.includes("салам")){
-          return "Сәлем! 🌟 Қандай сұрағың бар? Қуана көмектесемін!";
-        }
-        return "Керемет сұрақ! ‘Қатысу’, ‘Жобалар’ немесе ‘Байланыс’ бөлімін қарап шық 🤝✨";
-      } else {
-        if((q.includes("как") || q.includes("присоедин") || q.includes("зарегистр")) && (q.includes("волонтер") || q.includes("участ") || q.includes("проект"))){
-          return "Очень просто! Нажми кнопку ‘Присоединиться’ и заполни форму 🌟🤝💚";
-        }
-        if(q.includes("проект")){
-          return "В разделе проектов ты можешь выбрать направление, которое тебе нравится 🚀";
-        }
-        if(q.includes("контакт") || q.includes("instagram") || q.includes("telegram") || q.includes("email")){
-          return "Ты можешь связаться с нами через Instagram, Telegram или email 📩😊";
-        }
-        if(q.includes("атырау") || q.includes("город") || q.includes("адрес")){
-          return "Мы работаем в городе Атырау 🏙️💚";
-        }
-        if(q.includes("привет")){
-          return "Привет! 🌟 Очень рад тебя видеть. Чем могу помочь?";
-        }
-        return "Отличный вопрос! Загляни в разделы ‘Участие’, ‘Проекты’ или ‘Контакты’ 🤝✨";
+    if (currentLang === "kk") {
+      if ((q.includes("қалай") || q.includes("қосыл") || q.includes("тіркел")) && (q.includes("волонтер") || q.includes("қатысу") || q.includes("жоба"))) {
+        return "Өте оңай! ‘Қосылу’ батырмасын басып, формаға деректеріңді енгіз 🌟🤝💚";
       }
-    }
-
-    function handleChat(){
-      const text = chatInput.value.trim();
-      if(!text) return;
-
-      addMessage(text, "user");
-
-      setTimeout(() => {
-        addMessage(getBotReply(text), "bot");
-      }, 450);
-
-      chatInput.value = "";
-    }
-
-    sendChat.addEventListener("click", handleChat);
-    chatInput.addEventListener("keydown", (e) => {
-      if(e.key === "Enter"){
-        handleChat();
+      if (q.includes("жоба")) {
+        return "Жобалар бөлімінен өзіңе ұнаған бағытты таңда да, бірден тіркеле аласың 🚀";
       }
-    });
-
-    // Scroll top
-    const scrollTopBtn = document.getElementById("scrollTop");
-
-    window.addEventListener("scroll", () => {
-      if(window.scrollY > 500){
-        scrollTopBtn.classList.add("show");
-      } else {
-        scrollTopBtn.classList.remove("show");
+      if (q.includes("байланыс") || q.includes("instagram") || q.includes("telegram") || q.includes("email")) {
+        return "Бізбен Instagram, Telegram немесе email арқылы байланыса аласың 📩😊";
       }
-    });
+      if (q.includes("атырау") || q.includes("қай қала") || q.includes("мекен")) {
+        return "Біз Атырау қаласында жұмыс істейміз 🏙️💚";
+      }
+      if (q.includes("сәлем") || q.includes("салам")) {
+        return "Сәлем! 🌟 Қандай сұрағың бар? Қуана көмектесемін!";
+      }
+      return "Керемет сұрақ! ‘Қатысу’, ‘Жобалар’ немесе ‘Байланыс’ бөлімін қарап шық 🤝✨";
+    } else {
+      if ((q.includes("как") || q.includes("присоедин") || q.includes("зарегистр")) && (q.includes("волонтер") || q.includes("участ") || q.includes("проект"))) {
+        return "Очень просто! Нажми кнопку ‘Присоединиться’ и заполни форму 🌟🤝💚";
+      }
+      if (q.includes("проект")) {
+        return "В разделе проектов ты можешь выбрать направление, которое тебе нравится 🚀";
+      }
+      if (q.includes("контакт") || q.includes("instagram") || q.includes("telegram") || q.includes("email")) {
+        return "Ты можешь связаться с нами через Instagram, Telegram или email 📩😊";
+      }
+      if (q.includes("атырау") || q.includes("город") || q.includes("адрес")) {
+        return "Мы работаем в городе Атырау 🏙️💚";
+      }
+      if (q.includes("привет")) {
+        return "Привет! 🌟 Очень рад тебя видеть. Чем могу помочь?";
+      }
+      return "Отличный вопрос! Загляни в разделы ‘Участие’, ‘Проекты’ или ‘Контакты’ 🤝✨";
+    }
+  }
 
-    scrollTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  </script>
+  function handleChat() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+
+    setTimeout(() => {
+      addMessage(getBotReply(text), "bot");
+    }, 450);
+
+    chatInput.value = "";
+  }
+
+  sendChat.addEventListener("click", handleChat);
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleChat();
+    }
+  });
+
+  // Scroll top
+  const scrollTopBtn = document.getElementById("scrollTop");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 500) {
+      scrollTopBtn.classList.add("show");
+    } else {
+      scrollTopBtn.classList.remove("show");
+    }
+  });
+
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>
 </body>
 </html>
