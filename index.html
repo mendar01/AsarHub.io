@@ -1409,7 +1409,7 @@
         </div>
 
         <!-- ВСТАВЬ СВОЙ FORMSPREE URL В action -->
-        <form class="volunteer-form reveal" id="volunteerForm" action="https://formspree.io/f/your_form_id" method="POST">
+        <form class="volunteer-form reveal" id="volunteerForm">
           <div class="form-grid">
             <div class="form-group">
               <label for="name" data-kk="Аты-жөні" data-ru="Имя и фамилия">Аты-жөні</label>
@@ -1561,9 +1561,19 @@
 
   <button class="scroll-top" id="scrollTop">↑</button>
 
-  <script>
+  <script type="module">
  // document.body.classList.add("js");
+import { firebaseConfig } from "./firebase-config.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
     // Menu
     const burger = document.getElementById("burger");
     const menu = document.getElementById("menu");
@@ -1763,93 +1773,59 @@ startAutoSlide();
 
     // Form
     const volunteerForm = document.getElementById("volunteerForm");
-    const formMessage = document.getElementById("formMessage");
-    const submitBtn = document.getElementById("submitBtn");
+const formMessage = document.getElementById("formMessage");
+const submitBtn = document.getElementById("submitBtn");
 
-    volunteerForm.addEventListener("submit", async function(e){
-      e.preventDefault();
+volunteerForm.addEventListener("submit", async function(e){
+  e.preventDefault();
 
-      const name = document.getElementById("name").value.trim();
-      const city = document.getElementById("city").value.trim();
-      const contact = document.getElementById("contactInput").value.trim();
-      const message = document.getElementById("message").value.trim();
-      const interests = Array.from(document.querySelectorAll('input[name="interest"]:checked')).map(el => el.value);
+  const name = document.getElementById("name").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const contact = document.getElementById("contactInput").value.trim();
+  const message = document.getElementById("message").value.trim();
+  const interests = Array.from(
+    document.querySelectorAll('input[name="interest"]:checked')
+  ).map(el => el.value);
 
-      if(!name || !contact){
-        formMessage.className = "form-message error";
-        formMessage.textContent = currentLang === "kk"
-          ? "⚠️ Міндетті жолдарды толтырыңыз."
-          : "⚠️ Заполните обязательные поля.";
-        return;
-      }
+  if(!name || !contact){
+    formMessage.className = "form-message error";
+    formMessage.textContent = currentLang === "kk"
+      ? "⚠️ Міндетті жолдарды толтырыңыз."
+      : "⚠️ Заполните обязательные поля.";
+    return;
+  }
 
-      const volunteerData = {
-        name,
-        city,
-        contact,
-        message,
-        interests,
-        createdAt: new Date().toISOString()
-      };
+  try{
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = "0.7";
 
-      const saved = JSON.parse(localStorage.getItem("asar_volunteers") || "[]");
-      saved.push(volunteerData);
-      localStorage.setItem("asar_volunteers", JSON.stringify(saved));
-
-      const action = volunteerForm.getAttribute("action");
-
-      if(action && !action.includes("your_form_id")){
-        try{
-          submitBtn.disabled = true;
-          submitBtn.style.opacity = "0.7";
-
-          const formData = new FormData();
-          formData.append("name", name);
-          formData.append("city", city);
-          formData.append("contact", contact);
-          formData.append("message", message);
-          formData.append("interests", interests.join(", "));
-
-          const response = await fetch(action, {
-            method: "POST",
-            body: formData,
-            headers: {
-              "Accept": "application/json"
-            }
-          });
-
-          if(response.ok){
-            formMessage.className = "form-message success";
-            formMessage.textContent = currentLang === "kk"
-              ? "🎉 Өтінім сәтті жіберілді!"
-              : "🎉 Заявка успешно отправлена!";
-            volunteerForm.reset();
-          } else {
-            formMessage.className = "form-message success";
-            formMessage.textContent = currentLang === "kk"
-              ? "✅ Өтінім localStorage ішінде сақталды."
-              : "✅ Заявка сохранена в localStorage.";
-            volunteerForm.reset();
-          }
-        } catch(error){
-          formMessage.className = "form-message success";
-          formMessage.textContent = currentLang === "kk"
-            ? "✅ Интернет қатесі болды, бірақ өтінім браузерде сақталды."
-            : "✅ Была ошибка сети, но заявка сохранена в браузере.";
-          volunteerForm.reset();
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.style.opacity = "1";
-        }
-      } else {
-        formMessage.className = "form-message success";
-        formMessage.textContent = currentLang === "kk"
-          ? "✅ Өтінім localStorage ішінде сақталды. Formspree қосу үшін action ішіне өз сілтемеңді қой."
-          : "✅ Заявка сохранена в localStorage. Чтобы включить Formspree, вставь свою ссылку в action.";
-        volunteerForm.reset();
-      }
+    await addDoc(collection(db, "applications"), {
+      name,
+      city,
+      contact,
+      message,
+      interests,
+      status: "new",
+      createdAt: serverTimestamp()
     });
 
+    formMessage.className = "form-message success";
+    formMessage.textContent = currentLang === "kk"
+      ? "🎉 Өтінім сәтті жіберілді!"
+      : "🎉 Заявка успешно отправлена!";
+
+    volunteerForm.reset();
+  } catch(error){
+    console.error(error);
+    formMessage.className = "form-message error";
+    formMessage.textContent = currentLang === "kk"
+      ? "❌ Қате орын алды. Кейінірек қайталап көріңіз."
+      : "❌ Произошла ошибка. Попробуйте позже.";
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = "1";
+  }
+});
     // Counter animation
     const statsGrid = document.getElementById("statsGrid");
     const counters = document.querySelectorAll("[data-counter]");
