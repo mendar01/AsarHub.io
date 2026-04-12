@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asar Hub Admin</title>
+  <style>
+    body{
+      font-family:Arial,sans-serif;
+      margin:0;
+      background:#f4f8fb;
+      color:#1d2b34;
+    }
+    .wrap{
+      width:min(1100px,92%);
+      margin:40px auto;
+    }
+    .card{
+      background:#fff;
+      border-radius:20px;
+      padding:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+      margin-bottom:20px;
+    }
+    input,button,select{
+      font:inherit;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid #d8e4ef;
+      margin:6px 0;
+    }
+    button{
+      cursor:pointer;
+      border:none;
+      background:linear-gradient(135deg,#29c36a,#3498ff);
+      color:#fff;
+      font-weight:700;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+    }
+    th,td{
+      padding:12px;
+      border-bottom:1px solid #e8eef5;
+      text-align:left;
+      vertical-align:top;
+    }
+    .row-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .danger{
+      background:#e74c3c;
+    }
+    .muted{
+      color:#667786;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Asar Hub Admin</h1>
+      <p class="muted">Вход для администратора</p>
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="password" placeholder="Password" />
+      <button id="loginBtn">Войти</button>
+      <button id="logoutBtn">Выйти</button>
+      <p id="authMessage"></p>
+    </div>
+
+    <div class="card">
+      <h2>Заявки волонтёров</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>Город</th>
+            <th>Контакт</th>
+            <th>Интересы</th>
+            <th>Статус</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody id="applicationsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module">
+    import { firebaseConfig } from "./firebase-config.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      doc,
+      updateDoc,
+      deleteDoc,
+      orderBy,
+      query
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const authMessage = document.getElementById("authMessage");
+    const applicationsBody = document.getElementById("applicationsBody");
+
+    loginBtn.addEventListener("click", async () => {
+      try{
+        await signInWithEmailAndPassword(auth, email.value, password.value);
+        authMessage.textContent = "Вход выполнен";
+      } catch(error){
+        authMessage.textContent = "Ошибка входа: " + error.message;
+      }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      authMessage.textContent = "Вы вышли";
+      applicationsBody.innerHTML = "";
+    });
+
+    async function loadApplications(){
+      applicationsBody.innerHTML = "";
+      const q = query(collection(db, "applications"), orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
+
+      snapshot.forEach((item) => {
+        const data = item.data();
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${data.name || ""}</td>
+          <td>${data.city || ""}</td>
+          <td>${data.contact || ""}</td>
+          <td>${(data.interests || []).join(", ")}</td>
+          <td>
+            <select data-id="${item.id}" class="statusSelect">
+              <option value="new" ${data.status === "new" ? "selected" : ""}>new</option>
+              <option value="approved" ${data.status === "approved" ? "selected" : ""}>approved</option>
+              <option value="contacted" ${data.status === "contacted" ? "selected" : ""}>contacted</option>
+            </select>
+          </td>
+          <td>
+            <div class="row-actions">
+              <button class="saveBtn" data-id="${item.id}">Сохранить</button>
+              <button class="danger deleteBtn" data-id="${item.id}">Удалить</button>
+            </div>
+          </td>
+        `;
+
+        applicationsBody.appendChild(tr);
+      });
+
+      document.querySelectorAll(".saveBtn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const id = btn.dataset.id;
+          const select = document.querySelector(`.statusSelect[data-id="${id}"]`);
+          await updateDoc(doc(db, "applications", id), {
+            status: select.value
+          });
+          alert("Статус обновлён");
+        });
+      });
+
+      document.querySelectorAll(".deleteBtn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const id = btn.dataset.id;
+          await deleteDoc(doc(db, "applications", id));
+          loadApplications();
+        });
+      });
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if(user){
+        authMessage.textContent = "Администратор авторизован";
+        loadApplications();
+      } else {
+        authMessage.textContent = "Сначала войдите";
+        applicationsBody.innerHTML = "";
+      }
+    });
+  </script>
+</body>
+</html>
